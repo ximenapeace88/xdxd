@@ -36,6 +36,7 @@
   </div>
 
   <audio id="audio" src="img/audio.mp3"></audio>
+  <audio id="song" src="img/cancion.mp3" loop></audio> <!-- Canción que se repetirá sin parar -->
 
   <script>
     const btnNo = document.getElementById('btn-no');
@@ -46,6 +47,7 @@
     const temach2Video = document.getElementById('temach2-video');
     const message = document.getElementById('final-message');
     const audio = document.getElementById('audio');
+    const song = document.getElementById('song');  // Canción
     const heartBackground = document.getElementById('heart-background');
     let clickCount = 0;
     let escapeCount = 0;
@@ -68,7 +70,7 @@
       if (clickCount === 1) {
         videoContainer.classList.remove('hidden');
         temachVideo.play();
-        btnNo.textContent = '¿Por queee no😭? Dile temach(presiona aqui)';
+        btnNo.textContent = '¿Por queee no😭? Dile temach(Presiona aqui)';
       } else if (clickCount === 2) {
         videoContainer.classList.add('hidden');
         secondVideoContainer.classList.remove('hidden');
@@ -84,6 +86,11 @@
       message.classList.remove('hidden');
       audio.currentTime = 0; // Resetea audio para sincronizar
       audio.play();
+      
+      // Reproduce la canción inmediatamente después de que el primer audio termine
+      audio.onended = () => {
+        song.play(); // Reproduce la canción
+      };
     });
 
     // Create hearts for the background
