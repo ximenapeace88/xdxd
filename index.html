@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¿Volver a intentarlo?</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="heart-background"></div>
+
+  <div class="container">
+    <h1>¿Quieres volver a intentarlo, si aún me quieres?</h1>
+    <div class="buttons">
+      <button id="btn-si">Sí 💖</button>
+      <button id="btn-no">No 💔</button>
+    </div>
+
+    <div id="video-container" class="hidden">
+      <video id="temach-video" width="480" autoplay controls></video>
+    </div>
+
+    <div id="second-video-container" class="hidden">
+      <video id="temach2-video" width="480" autoplay controls></video>
+    </div>
+
+    <div id="final-message" class="hidden">
+      <div class="card">
+        <p>
+          Aunque el tiempo ha pasado, no puedo evitar pensar en ti. Extraño tus palabras, tu risa y esos momentos que parecían detener el mundo. <br><br>
+          Quiero ser honesto: aún te quiero, y más que nada, deseo que encontremos el camino de vuelta. Sé que lo que tuvimos fue especial, y creo que aún podemos construir algo hermoso juntos.<br><br>
+          Y esos ojos tuyos, Renzo... son como dos lunas atrapadas en la noche, capaces de iluminar hasta mis días más oscuros.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <audio id="audio" src="img/audio.mp3"></audio>
+
+  <script>
+    const btnNo = document.getElementById('btn-no');
+    const btnSi = document.getElementById('btn-si');
+    const videoContainer = document.getElementById('video-container');
+    const secondVideoContainer = document.getElementById('second-video-container');
+    const temachVideo = document.getElementById('temach-video');
+    const temach2Video = document.getElementById('temach2-video');
+    const message = document.getElementById('final-message');
+    const audio = document.getElementById('audio');
+    const heartBackground = document.getElementById('heart-background');
+    let clickCount = 0;
+    let escapeCount = 0;
+
+    // Video sources
+    temachVideo.src = 'img/temach.mp4';
+    temach2Video.src = 'img/temach2.mp4';
+
+    btnNo.addEventListener('mouseover', () => {
+      if (escapeCount < 4) {
+        escapeCount++;
+        btnNo.style.position = 'absolute';
+        btnNo.style.left = Math.random() * 80 + '%';
+        btnNo.style.top = Math.random() * 80 + '%';
+      }
+    });
+
+    btnNo.addEventListener('click', () => {
+      clickCount++;
+      if (clickCount === 1) {
+        videoContainer.classList.remove('hidden');
+        temachVideo.play();
+        btnNo.textContent = '¿Por queee no😭? Dile temach';
+      } else if (clickCount === 2) {
+        videoContainer.classList.add('hidden');
+        secondVideoContainer.classList.remove('hidden');
+        temach2Video.play();
+        temach2Video.onended = () => {
+          secondVideoContainer.classList.add('hidden');
+          btnNo.classList.add('hidden');
+        };
+      }
+    });
+
+    btnSi.addEventListener('click', () => {
+      message.classList.remove('hidden');
+      audio.currentTime = 0; // Resetea audio para sincronizar
+      audio.play();
+    });
+
+    // Create hearts for the background
+    function createHearts() {
+      setInterval(() => {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+        heartBackground.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+      }, 300);
+    }
+
+    createHearts();
+  </script>
+</body>
+</html>
+
